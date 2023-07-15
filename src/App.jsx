@@ -1,102 +1,111 @@
+import React, { useState, useEffect } from 'react';
 import InputField from './Components/Form/InputField';
-import { useState, Fragment, useEffect } from 'react';
-import TaskItem from './Components/TaskItem/TaskItem'
+import TaskItem from './Components/TaskItem/TaskItem';
 
-const App = function () {
-  //States
+const App = () => {
+  // States
   const [task, setTask] = useState('');
   const [listTask, setListTask] = useState(() => {
-    const savedTodos = localStorage.getItem("listTask");
+    const savedTodos = localStorage.getItem('listTask');
     if (savedTodos) return JSON.parse(savedTodos);
     return [];
   });
-  const [editTask, setEditTask] = useState({ index: null, value: "" });
+  const [editTask, setEditTask] = useState({ index: null, value: '' });
+  const [isEditing, setIsEditing] = useState(false);
 
-
-  //Events handlers
-  const onSubmit = function () {
-    if (!itsInputEmpty() && !taskAlreadyExist(task)){
-      addTask(task)
+  // Events handlers
+  const onSubmit = () => {
+    if (!itsInputEmpty() && !taskAlreadyExist(task)) {
+      addTask(task);
+    } else {
+      alert('Please enter a task to submit!');
     }
-    setTask('')
+    setTask('');
   };
 
-  //Use effects
+  // Use effects to set the task to local storage
   useEffect(() => {
-    console.log(listTask);
     localStorage.setItem('listTask', JSON.stringify(listTask));
   }, [listTask]);
 
-  //Functions
+  // Functions
 
-  //Get task from localStorage
-  const getTaskFromLocalStorage = () => JSON.parse(localStorage.getItem("listTask"));
+  // Get task from localStorage
+  const getTaskFromLocalStorage = () => JSON.parse(localStorage.getItem('listTask'));
 
-  //Is already task in localStorage?
-  const taskAlreadyExist = function(currentTask){
+  // Check if task already exists in localStorage
+  const taskAlreadyExist = (currentTask) => {
     const storedTasks = getTaskFromLocalStorage();
     if (storedTasks) {
       const valueArr = storedTasks.map((task) => task.task.toLowerCase());
       const isDuplicated = valueArr.includes(currentTask.toLowerCase());
-      if(isDuplicated) alert(`${currentTask} is already present in the list.`)
+      if (isDuplicated) alert(`${currentTask} is already present in the list.`);
       return isDuplicated;
     }
     return false;
-  }
+  };
 
-  //Add task to state
-  const addTask = function(currentTask){
-    
-    setListTask([...listTask, {
-      task: currentTask,
-      isCompleted: false,
-      date: getCompleteDate()
-    }]);
-  }
+  // Add task to state
+  const addTask = (currentTask) => {
+    setListTask([
+      ...listTask,
+      {
+        task: currentTask,
+        isCompleted: false,
+        date: getCompleteDate(),
+      },
+    ]);
+  };
 
-  //Check if the input is empty
-  const itsInputEmpty = function(){
-    if (task.length > 0) return false;
-    return true;
-  }
+  // Check if the input is empty
+  const itsInputEmpty = () => {
+    return task === '';
+  };
 
-  //Set done specific task
-  const onDoneTask = function(index) {
+  // Set done for a specific task
+  const onDoneTask = (index) => {
     if (editTask.index === index) {
       const updatedTasks = [...listTask];
       updatedTasks[index].task = editTask.value;
       setListTask(updatedTasks);
-      setEditTask({ index: null, value: "" });
-      localStorage.setItem("listTask", JSON.stringify(updatedTasks));
+      setEditTask({ index: null, value: '' });
+      setIsEditing(false);
+    } else {
+      const updatedTasks = [...listTask];
+      updatedTasks.splice(index, 1);
+      setListTask(updatedTasks);
     }
-
-    const updatedTasks = [...listTask];
-    updatedTasks.splice(index, 1);
-    setListTask(updatedTasks);
-  
-    // Update local storage by removing the task
-    const updatedLocalStorageTasks = updatedTasks.map(task => task.task);
-    localStorage.setItem("listTask", JSON.stringify(updatedLocalStorageTasks));
   };
 
-  //Open task to edit
-  const onEditTask = function (index) {
+  // Open task to edit
+  const onEditTask = (index) => {
     const taskToEdit = listTask[index];
     setEditTask({ index: index, value: taskToEdit.task });
-    setIsEditing(true); 
+    setIsEditing(true);
   };
 
-  //Function to get the current date
-  const getCompleteDate = function(){
+  // Function to get the current date
+  const getCompleteDate = () => {
     const date = new Date();
-    let currentDay= String(date.getDate()).padStart(2, '0');
-    let currentMonth = String(date.getMonth()+1).padStart(2,"0");
+    let currentDay = String(date.getDate()).padStart(2, '0');
+    let currentMonth = String(date.getMonth() + 1).padStart(2, '0');
     let currentYear = date.getFullYear();
     return `${currentDay}-${currentMonth}-${currentYear}`;
-  }
+  };
+
+  const onConfirmEdit = () => {
+    if (isEditing) {
+      const updatedTasks = [...listTask];
+      updatedTasks[editTask.index].task = editTask.value;
+      setListTask(updatedTasks);
+      setEditTask({ index: null, value: '' });
+      setIsEditing(false);
+      localStorage.setItem('listTask', JSON.stringify(updatedTasks));
+    }
+  };
 
   return (
-    <Fragment>
+    <React.Fragment>
       <InputField onSubmit={onSubmit} task={task} setTask={setTask} />
       {listTask.map((task, index) => (
         <TaskItem
@@ -105,9 +114,13 @@ const App = function () {
           index={index}
           onEditTask={onEditTask}
           onDoneTask={onDoneTask}
+          editTask={editTask}
+          setEditTask={setEditTask}
+          onConfirmEdit={onConfirmEdit}
+          isEditing={isEditing}
         />
       ))}
-    </Fragment>
+    </React.Fragment>
   );
 };
 

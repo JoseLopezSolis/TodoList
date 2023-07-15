@@ -1,36 +1,47 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const TaskItem = ({ task, index, onEditTask, onDoneTask }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editTask, setEditTask] = useState({ index: null, value: '' });
+const TaskItem = ({
+  task,
+  index,
+  onEditTask,
+  onDoneTask,
+  editTask,
+  setEditTask,
+  onConfirmEdit,
+}) => {
+  const handleEditClick = () => {
+    onEditTask(index);
+  };
 
-  const onConfirmEdit = () => {
-    if (isEditing) {
-      const updatedTasks = [...listTask];
-      updatedTasks[index].task = editTask.value;
-      setListTask(updatedTasks);
-      setEditTask({ index: null, value: '' });
-      setIsEditing(false);
-      localStorage.setItem('listTask', JSON.stringify(updatedTasks));
-    }
+  const handleDoneClick = () => {
+    onDoneTask(index);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    onConfirmEdit();
+  };
+
+  const handleInputChange = (e) => {
+    setEditTask({ index, value: e.target.value });
   };
 
   return (
     <div>
-      {isEditing ? (
-        <form onSubmit={onConfirmEdit}>
+      {editTask.index === index ? (
+        <form onSubmit={handleFormSubmit}>
           <input
             type="text"
             value={editTask.value}
-            onChange={(e) => setEditTask({ index, value: e.target.value })}
+            onChange={handleInputChange}
           />
           <button type="submit">Confirm</button>
         </form>
       ) : (
         <div>{task}</div>
       )}
-      <button onClick={() => onEditTask(index)}>Edit</button>
-      <button onClick={() => onDoneTask(index)}>Done</button>
+      <button onClick={handleEditClick}>Edit</button>
+      <button onClick={handleDoneClick}>Done</button>
     </div>
   );
 };
