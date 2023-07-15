@@ -36,7 +36,7 @@ const App = function () {
     if (storedTasks) {
       const valueArr = storedTasks.map((task) => task.task.toLowerCase());
       const isDuplicated = valueArr.includes(currentTask.toLowerCase());
-      console.log(isDuplicated);
+      if(isDuplicated) alert(`${currentTask} is already present in the list.`)
       return isDuplicated;
     }
     return false;
@@ -44,9 +44,11 @@ const App = function () {
 
   //Add task to state
   const addTask = function(currentTask){
+    
     setListTask([...listTask, {
       task: currentTask,
-      isCompleted: false
+      isCompleted: false,
+      date: getCompleteDate()
     }]);
   }
 
@@ -56,10 +58,29 @@ const App = function () {
     return true;
   }
 
+  //Set done specific task
+  const onDoneTask = function(){
+    console.log('button done');
+  }
+
+  //Open task to edit
+  const onEditTask = function(){
+    console.log('button edit');
+  }
+
+  //Function to get the current date
+  const getCompleteDate = function(){
+    const date = new Date();
+    let currentDay= String(date.getDate()).padStart(2, '0');
+    let currentMonth = String(date.getMonth()+1).padStart(2,"0");
+    let currentYear = date.getFullYear();
+    return `${currentDay}-${currentMonth}-${currentYear}`;
+  }
+
   return (
     <Fragment>
       <InputField onSubmit={onSubmit} task={task} setTask={setTask} />
-      {listTask && listTask.map((task, index) => <Todos key={index} todo={task.task} />)}
+      {listTask && listTask.map((task, index) => <Todos key={index} todo={task.task} method={{onDoneTask: onDoneTask, onEditTask: onEditTask}} />)}
     </Fragment>
   );
 };
