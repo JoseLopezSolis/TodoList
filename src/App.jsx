@@ -17,9 +17,8 @@ const App = () => {
   const onSubmit = () => {
     if (!itsInputEmpty() && !taskAlreadyExist(task)) {
       addTask(task);
-    } else {
-      alert('Please enter a task to submit!');
     }
+    if(itsInputEmpty()) alert("Please enter a task!");
     setTask('');
   };
 
