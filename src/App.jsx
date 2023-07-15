@@ -1,6 +1,6 @@
 import InputField from './Components/Form/InputField';
 import { useState, Fragment, useEffect } from 'react';
-import Todos from './Components/Todos/Todos'
+import TaskItem from './Components/TaskItem/TaskItem'
 
 const App = function () {
   //States
@@ -10,6 +10,8 @@ const App = function () {
     if (savedTodos) return JSON.parse(savedTodos);
     return [];
   });
+  const [editTask, setEditTask] = useState({ index: null, value: "" });
+
 
   //Events handlers
   const onSubmit = function () {
@@ -59,14 +61,30 @@ const App = function () {
   }
 
   //Set done specific task
-  const onDoneTask = function(){
-    console.log('button done');
-  }
+  const onDoneTask = function(index) {
+    if (editTask.index === index) {
+      const updatedTasks = [...listTask];
+      updatedTasks[index].task = editTask.value;
+      setListTask(updatedTasks);
+      setEditTask({ index: null, value: "" });
+      localStorage.setItem("listTask", JSON.stringify(updatedTasks));
+    }
+
+    const updatedTasks = [...listTask];
+    updatedTasks.splice(index, 1);
+    setListTask(updatedTasks);
+  
+    // Update local storage by removing the task
+    const updatedLocalStorageTasks = updatedTasks.map(task => task.task);
+    localStorage.setItem("listTask", JSON.stringify(updatedLocalStorageTasks));
+  };
 
   //Open task to edit
-  const onEditTask = function(){
-    console.log('button edit');
-  }
+  const onEditTask = function (index) {
+    const taskToEdit = listTask[index];
+    setEditTask({ index: index, value: taskToEdit.task });
+    setIsEditing(true); 
+  };
 
   //Function to get the current date
   const getCompleteDate = function(){
@@ -80,7 +98,15 @@ const App = function () {
   return (
     <Fragment>
       <InputField onSubmit={onSubmit} task={task} setTask={setTask} />
-      {listTask && listTask.map((task, index) => <Todos key={index} todo={task.task} method={{onDoneTask: onDoneTask, onEditTask: onEditTask}} />)}
+      {listTask.map((task, index) => (
+        <TaskItem
+          key={index}
+          task={task.task}
+          index={index}
+          onEditTask={onEditTask}
+          onDoneTask={onDoneTask}
+        />
+      ))}
     </Fragment>
   );
 };
