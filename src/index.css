@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+:root{
+  --primary-font: "Montserrat";
+  --IOS-font: -apple-system, BlinkMacSystemFont, sans-serif;
+  --h1-size: 2rem;
+  --main-background-color: #e7e7e7;
+}
+*{
+  margin: 0;  
+  padding: 0;
+}
+
+body {
+  font-family: var(--IOS-font);
+  background-color: var(--main-background-color)
+}

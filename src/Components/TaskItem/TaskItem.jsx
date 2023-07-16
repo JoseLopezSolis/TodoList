@@ -1,5 +1,7 @@
-import React from 'react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import React, {Fragment} from 'react';
+import Classes from './TaskItem.module.css';
 const TaskItem = ({
   task,
   index,
@@ -27,7 +29,9 @@ const TaskItem = ({
   };
 
   return (
-    <div>
+    <Fragment>
+
+    <div className={Classes['task-container']}>
       {editTask.index === index ? (
         <form onSubmit={handleFormSubmit}>
           <input
@@ -38,11 +42,14 @@ const TaskItem = ({
           <button type="submit">Confirm</button>
         </form>
       ) : (
-        <div>{task}</div>
+        <div className={Classes.task}>
+          {task}
+        </div>
       )}
-      <button onClick={handleEditClick}>Edit</button>
-      <button onClick={handleDoneClick}>Done</button>
+      <FontAwesomeIcon className={Classes.icon} icon={faEdit} onClick={handleEditClick}/>
+      <FontAwesomeIcon className={Classes.icon} icon={faTrashAlt} onClick={handleDoneClick} />
     </div>
+    </Fragment>
   );
 };
 

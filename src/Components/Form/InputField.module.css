@@ -1,0 +1,35 @@
+.form-container{
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.form-container input[type="text"] {
+  width: 80vw;
+  border: 0;
+  border-bottom: 2px solid #9b9b9b;
+  outline: 0;
+  font-size: 1.3rem;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+  color: #000;
+
+}
+
+.form-container input[type="text"]:focus{
+  padding-bottom: 6px;  
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, $primary,$secondary);
+  border-image-slice: 1;
+}
+
+.form-container input[type="text"]:focus {
+  border-color: #000000; /* Change border color when input is focused */
+}
+
+.form-container input[type="submit"]{
+  display: none;
+}

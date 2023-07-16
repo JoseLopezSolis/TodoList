@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import InputField from './Components/Form/InputField';
 import TaskItem from './Components/TaskItem/TaskItem';
-
+import TitleForm from './Components/Form/TitleForm'
+import NoTaskMessage from './Components/NoTaskMessage/NoTaskMessage'
 const App = () => {
   // States
   const [task, setTask] = useState('');
@@ -15,7 +16,7 @@ const App = () => {
 
   // Events handlers
   const onSubmit = () => {
-    if (!itsInputEmpty() && !taskAlreadyExist(task)) {
+    if (!itsInputEmpty() && !taskAlreadyExist(task) && !isVeryLargeString()) {
       addTask(task);
     }
     if(itsInputEmpty()) alert("Please enter a task!");
@@ -103,14 +104,26 @@ const App = () => {
     }
   };
 
+  const isVeryLargeString = function(){
+    if(task.length > 30){
+      alert("Your task is too large, please try again!")
+      return true
+    }
+    return false
+  }
+
   return (
     <React.Fragment>
+      <TitleForm/>
       <InputField onSubmit={onSubmit} task={task} setTask={setTask} />
-      {listTask.map((task, index) => (
+      {listTask.length === 0 && 
+        <NoTaskMessage />
+      }
+      {listTask.slice(0).reverse().map((task, index) => (
         <TaskItem
           key={index}
           task={task.task}
-          index={index}
+          index={listTask.length - index - 1}
           onEditTask={onEditTask}
           onDoneTask={onDoneTask}
           editTask={editTask}
