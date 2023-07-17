@@ -1,33 +1,44 @@
-.form-container{
-  margin-top: 2rem;
+.form-container {
   display: flex;
   justify-content: center;
-  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.form-container label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  pointer-events: none;
+  transition: 0.2s;
+  color: #999;
 }
 
 .form-container input[type="text"] {
+  border-radius: 1rem;
   width: 80vw;
-  border: 0;
-  border-bottom: 2px solid #9b9b9b;
   outline: 0;
   font-size: 1.3rem;
-  padding: 7px 0;
-  background: transparent;
+  padding: 1.3rem 1rem;
+  background: rgba(0, 11, 31, 0.884);
   transition: border-color 0.2s;
-  color: #000;
-
-}
-
-.form-container input[type="text"]:focus{
-  padding-bottom: 6px;  
-  font-weight: 700;
-  border-width: 3px;
-  border-image: linear-gradient(to right, $primary,$secondary);
-  border-image-slice: 1;
+  color: #ffffff;
+  border: solid 1px #222;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
 .form-container input[type="text"]:focus {
-  border-color: #000000; /* Change border color when input is focused */
+  background: rgba(0, 11, 31, 0.95);
+}
+
+.form-container input[type="text"]:focus + label,
+.form-container input[type="text"]:valid + label {
+  top: -1.5rem;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.form-container input[type="text"]::placeholder {
+  color: #ffffff95; /* Change this to the desired color */
 }
 
 .form-container input[type="submit"]{

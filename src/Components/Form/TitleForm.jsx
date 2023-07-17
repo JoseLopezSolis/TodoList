@@ -5,7 +5,7 @@ const TitleForm = function(){
   return(
     <Fragment>
       <div className={Classes['header-container']}>
-        <CurrentDate/>
+      <CurrentDate/>
         <h1 className={Classes.h1}>Task to do</h1>
       </div>
     </Fragment>

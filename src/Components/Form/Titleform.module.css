@@ -6,16 +6,16 @@
     align-items: center;
     border-bottom-left-radius: 2rem;
     border-bottom-right-radius: 2rem;
-    background-image: url('https://img.freepik.com/free-photo/vivid-blurred-colorful-wallpaper-background_58702-2460.jpg?w=1380&t=st=1689524640~exp=1689525240~hmac=c225e936611e80fb5e4514b5a7251ff7c237a7fd754d363e56b128a2f0115426');
+    background-image: url('https://c4.wallpaperflare.com/wallpaper/316/456/846/4k-colorful-oneplus-6-stock-wallpaper-preview.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     /* Additional styles to define the size of the container */
     width: 100%;
-    height: 400px; /* Adjust the height as needed */
-
+    height: 350px; /* Adjust the height as needed */
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     animation-name: slideIn;
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
     animation-fill-mode: forwards; /* Keeps the element in its final state */
   }
