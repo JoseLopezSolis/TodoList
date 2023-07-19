@@ -1,0 +1,55 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.form-container label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  pointer-events: none;
+  transition: 0.2s;
+  color: #999;
+}
+
+.form-container input[type="text"] {
+  position: relative;
+  border-radius: 1rem;
+  width: 80vw;
+  outline: 0;
+  font-size: 1.3rem;
+  padding: 1.3rem 1rem;
+  background: rgba(0, 11, 31, 0.884);
+  transition: border-color 0.2s;
+  color: #ffffff;
+  border: solid 1px #222;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.form-container input[type="text"]:focus {
+  background: rgba(0, 11, 31, 0.95);
+}
+
+.form-container input[type="text"]:focus + label,
+.form-container input[type="text"]:valid + label {
+  top: -1.5rem;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.form-container input[type="text"]::placeholder {
+  color: #ffffff95; /* Change this to the desired color */
+}
+
+.form-container input[type="submit"]{
+  display: none;
+}
+
+.form-container span{
+  font-size: 1.5rem;
+  color: #ffffffa7;
+  position: absolute;
+  right: 2.5rem;
+  transform: translateY(+100%);
+}

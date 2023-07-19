@@ -1,4 +1,7 @@
-import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
+import React, { Fragment } from 'react';
+import Classes from './TaskItem.module.css';
 
 const TaskItem = ({
   task,
@@ -27,22 +30,32 @@ const TaskItem = ({
   };
 
   return (
-    <div>
-      {editTask.index === index ? (
-        <form onSubmit={handleFormSubmit}>
-          <input
-            type="text"
-            value={editTask.value}
-            onChange={handleInputChange}
-          />
-          <button type="submit">Confirm</button>
-        </form>
-      ) : (
-        <div>{task}</div>
-      )}
-      <button onClick={handleEditClick}>Edit</button>
-      <button onClick={handleDoneClick}>Done</button>
-    </div>
+    <Fragment>
+      <div className={Classes['task-container']}>
+        {editTask.index === index ? (
+          <form onSubmit={handleFormSubmit} className={Classes['form']}>
+            <input
+              type="text"
+              value={editTask.value}
+              onChange={handleInputChange}
+              className={Classes['input-update']}
+            />
+          </form>
+        ) : (
+          <div className={Classes.task}>{task}</div>
+        )}
+         <FontAwesomeIcon
+          className={Classes.green}
+          icon={faCheck}
+          onClick={handleDoneClick}
+        />
+        <FontAwesomeIcon
+          className={Classes.blue}
+          icon={faPencilAlt}
+          onClick={handleEditClick}
+        />
+      </div>
+    </Fragment>
   );
 };
 
