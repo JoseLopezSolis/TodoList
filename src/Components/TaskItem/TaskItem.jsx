@@ -33,13 +33,13 @@ const TaskItem = ({
     <Fragment>
       <div className={Classes['task-container']}>
         {editTask.index === index ? (
-          <form onSubmit={handleFormSubmit}>
+          <form onSubmit={handleFormSubmit} className={Classes['form']}>
             <input
               type="text"
               value={editTask.value}
               onChange={handleInputChange}
+              className={Classes['input-update']}
             />
-            <button type="submit">Confirm</button>
           </form>
         ) : (
           <div className={Classes.task}>{task}</div>

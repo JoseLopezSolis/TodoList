@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import InputField from './Components/Form/InputField';
 import TaskItem from './Components/TaskItem/TaskItem';
-import TitleForm from './Components/Form/TitleForm'
-import NoTaskMessage from './Components/NoTaskMessage/NoTaskMessage'
-import TaskContainer from './Components/TaskContainer/TaskContainer'
+import TitleForm from './Components/Form/TitleForm';
+import NoTaskMessage from './Components/NoTaskMessage/NoTaskMessage';
+import TaskContainer from './Components/TaskContainer/TaskContainer';
+import RemoveAllTask from './Components/RemoveAllTask/RemoveAllTasks';
+import Notification from './Components/Notification/Notification';
+
 const App = () => {
   // States
   const [task, setTask] = useState('');
@@ -14,13 +17,17 @@ const App = () => {
   });
   const [editTask, setEditTask] = useState({ index: null, value: '' });
   const [isEditing, setIsEditing] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationContent, setNotificationContent] = useState('');
+  const [classNotification, setClassNotification] = useState('fade-in');
 
   // Events handlers
   const onSubmit = () => {
+    setNotificationMessage();
     if (!itsInputEmpty() && !taskAlreadyExist(task)) {
       addTask(task);
+      setNotificationContent('Task added ✅');
     }
-    if(itsInputEmpty()) alert("Please enter a task!");
     setTask('');
   };
 
@@ -28,6 +35,17 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem('listTask', JSON.stringify(listTask));
   }, [listTask]);
+
+  // Use effect to see the notification
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowNotification(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [showNotification]);
 
   // Functions
 
@@ -40,7 +58,6 @@ const App = () => {
     if (storedTasks) {
       const valueArr = storedTasks.map((task) => task.task.toLowerCase());
       const isDuplicated = valueArr.includes(currentTask.toLowerCase());
-      if (isDuplicated) alert(`${currentTask} is already present in the list.`);
       return isDuplicated;
     }
     return false;
@@ -60,6 +77,7 @@ const App = () => {
 
   // Check if the input is empty
   const itsInputEmpty = () => {
+    setShowNotification(true);
     return task === '';
   };
 
@@ -105,14 +123,25 @@ const App = () => {
     }
   };
 
+  // onDeleteAllTask
+  const onDeleteAllTasks = function () {
+    setListTask([]);
+    localStorage.removeItem('listTask');
+  };
+
+  const setNotificationMessage = function () {
+    if (taskAlreadyExist(task)) setNotificationContent('Task already exists 🔁');
+    else if (!task) setNotificationContent('Enter a task please 📝');
+    setShowNotification(true);
+  };
+
   return (
     <React.Fragment>
-      <TitleForm/>
+      {showNotification && <Notification content={notificationContent} className={classNotification} />}
+      <TitleForm />
       <InputField onSubmit={onSubmit} task={task} setTask={setTask} />
       <TaskContainer>
-        {listTask.length === 0 && 
-          <NoTaskMessage />
-        }
+        {listTask.length === 0 && <NoTaskMessage />}
         {listTask.slice(0).reverse().map((task, index) => (
           <TaskItem
             key={index}
@@ -127,6 +156,7 @@ const App = () => {
           />
         ))}
       </TaskContainer>
+      {listTask.length > 0 && <RemoveAllTask onDeleteAll={onDeleteAllTasks} />}
     </React.Fragment>
   );
 };
