@@ -5,9 +5,19 @@
 }
 
 .container{
-  width: 90vw;
+  width: 50vw;
   height: 45vh;
   background-color: rgb(255, 255, 255);
   border-radius: 2rem;
   overflow-y: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .container{
+    width: 90vw;
+    height: 45vh;
+    background-color: rgb(255, 255, 255);
+    border-radius: 2rem;
+    overflow-y: auto;
+  }
 }

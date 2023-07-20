@@ -4,7 +4,7 @@ const RemoveAllTask = function({onDeleteAll}){
   return(
     <Fragment>
       <span className={Classes['remove-task-container']} onClick={onDeleteAll}>
-            Delete all
+           <span>Remove all</span> 
       </span>
     </Fragment>
   )

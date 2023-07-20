@@ -1,11 +1,27 @@
-.remove-task-container{
-  margin: 0.5rem 2rem;
+.remove-task-container {
+  margin: 1rem auto; /* Set top and bottom margin to 1rem and left and right margin to auto */
   display: flex;
   justify-content: center;
-  padding: 0.5rem 1rem;
   background-color: #bb0000;
-  color: #ffffff;
-  font-weight: bold;
-  text-align: center;
+  width: 20vw;
+  padding: 1rem 2rem;
   border-radius: 2rem;
+  color: #ffffff;
+  cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+  .remove-task-container{
+    width: 80vw;
+    margin: 0.5rem 2rem;
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background-color: #bb0000;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 2rem;
+  }
+}
+

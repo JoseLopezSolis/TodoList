@@ -26,12 +26,15 @@
     transform: translateY(0);
   }
 }
+
 .green {
   color: rgb(60, 255, 0);
+  cursor: pointer;
 }
 
 .blue {
   color: rgb(0, 0, 0);
+  cursor: pointer;
 }
 
 .input-update{
